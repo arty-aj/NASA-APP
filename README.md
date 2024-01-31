@@ -6,4 +6,4 @@ Instead of XML files, now I am using Jetpack Compose to showcase APOD using NASA
 * Coil
 * Zoomable
 
-<img src="">
+<img src="https://github.com/arty-aj/NASA-APP/blob/main/ComposeAPOD.gif">
