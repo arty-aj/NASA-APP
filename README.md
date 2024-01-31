@@ -2,6 +2,7 @@
 Instead of XML files, now I am using Jetpack Compose to showcase APOD using NASA API with the help of MVVM Architecture.
 
 <p>Previous app version <a href="https://github.com/arty-aj/NasaAPI">here.</a></p>
+Still need implememnt dat picker.
 
 # Open source libraries used
 * Retrofit
