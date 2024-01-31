@@ -9,4 +9,4 @@ Still need implement date picker.
 * Coil
 * Zoomable
 
-<img src="https://github.com/arty-aj/NASA-APP/blob/main/ComposeAPOD.gif">
+<img src="https://github.com/arty-aj/NASA-APP/blob/main/ApodCompose.gif">
