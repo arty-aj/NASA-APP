@@ -1,6 +1,6 @@
-package com.example.nasa_api.data
+package com.example.nasa_api.domain.repository
 
-import com.example.nasa_api.models.APOD
+import com.example.nasa_api.data.APOD
 import com.example.nasa_api.utils.Util
 import retrofit2.Response
 import retrofit2.http.GET

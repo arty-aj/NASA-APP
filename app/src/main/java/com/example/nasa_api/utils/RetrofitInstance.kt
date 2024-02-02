@@ -1,6 +1,6 @@
 package com.example.nasa_api.utils
 
-import com.example.nasa_api.data.ApiInterface
+import com.example.nasa_api.domain.repository.ApiInterface
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

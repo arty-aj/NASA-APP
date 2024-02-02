@@ -1,4 +1,4 @@
-package com.example.nasa_api.views
+package com.example.nasa_api.ui.components
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -23,28 +23,27 @@ fun ExpandingText(modifier: Modifier = Modifier, text: String) {
     // storing expanded state
     var showMore by rememberSaveable { mutableStateOf(false) }
 
-    Column(modifier = Modifier.padding(20.dp)) {
-
-        // Creating a clickable modifier
-        // that consists text
-        Column(modifier = Modifier
-            .animateContentSize(animationSpec = tween(100))
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) { showMore = !showMore }) {
-
-            // if showMore is true, the Text will expand
-            // Else Text will be restricted to 3 Lines of display
-            if (showMore) {
-                Text(text = text)
-            } else {
-                Text(
-                    text = text,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
+    // Creating a clickable modifier
+    // that consists text
+    Column(
+        modifier = Modifier
+        .animateContentSize(animationSpec = tween(100))
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null
+        ) { showMore = !showMore }
+        .padding(20.dp)
+    ) {
+        // if showMore is true, the Text will expand
+        // Else Text will be restricted to 3 Lines of display
+        if (showMore) {
+            Text(text = text)
+        } else {
+            Text(
+                text = text,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }

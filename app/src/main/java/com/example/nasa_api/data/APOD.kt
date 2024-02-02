@@ -1,4 +1,4 @@
-package com.example.nasa_api.models
+package com.example.nasa_api.data
 
 data class APOD(
     val date: String="",
