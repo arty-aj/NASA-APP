@@ -21,13 +21,13 @@ fun MyApp(){
         //Does not collect state updates from the flow at inappropriate times.
         //Such as when we move to different page.
         val apod by viewModel.apods.collectAsState()
+        val currentDate by viewModel.currentDate.collectAsState()
 
         CurrentApod(
-            apod = apod,
-            onDateClicked = {
-                val convertedDate = viewModel.convertTime(it)
-                viewModel.dataRetrieval(convertedDate)
-            }
-        )
+            apod = apod
+        ) {
+            val convertedDate = viewModel.convertTime(it)
+            viewModel.dataRetrieval(convertedDate)
+        }
     }
 }

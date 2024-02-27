@@ -18,7 +18,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ExpandingText(modifier: Modifier = Modifier, text: String) {
+fun ExpandingText(
+    modifier: Modifier = Modifier,
+    text: String
+) {
     // Creating a boolean value for
     // storing expanded state
     var showMore by rememberSaveable { mutableStateOf(false) }

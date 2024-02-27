@@ -7,9 +7,8 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiInterface {
-    @GET("/planetary/apod${Util.key}")
-    suspend fun getApod() : Response<APOD>
-
+//    @GET("/planetary/apod${Util.key}")
+//    suspend fun getApod() : Response<APOD>
     @GET("/planetary/apod${Util.key}")
     suspend fun getApodDate(@Query("date") date: String) : Response<APOD>
 }

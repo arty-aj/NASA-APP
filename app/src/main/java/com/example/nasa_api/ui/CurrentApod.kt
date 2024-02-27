@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
@@ -25,13 +26,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
 import com.example.nasa_api.data.APOD
 import com.example.nasa_api.ui.components.ExpandingText
 import com.example.nasa_api.ui.components.MyDateClicker
 import net.engawapg.lib.zoomable.rememberZoomState
 import net.engawapg.lib.zoomable.zoomable
-import java.util.Calendar
-import java.util.TimeZone
+import java.time.Instant
+import java.time.ZoneId
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,19 +43,22 @@ fun CurrentApod(
     modifier: Modifier = Modifier,
     onDateClicked: (Long) -> Unit
 ) {
+    //1
     //State hoisting example
     var showDatePicker by rememberSaveable{
         mutableStateOf(false)
     }
 
     val datePickerState = rememberDatePickerState(
-        selectableDates = object : SelectableDates{
+        initialSelectedDateMillis = getTodaysDate(),
+        selectableDates = object : SelectableDates {
             override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-                val calendar  = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-                return calendar.timeInMillis > utcTimeMillis
+                val selectedDate = turnToUTC(utcTimeMillis)
+                return selectedDate <= getTodaysDate()
             }
         }
     )
+
 
     val zoomState = rememberZoomState()
 
@@ -73,14 +79,16 @@ fun CurrentApod(
             modifier
                 .height(15.dp)
         )
-        AsyncImage(
+        SubcomposeAsyncImage(
             model = apod.hdurl,
             contentDescription = apod.title,
             modifier
                 .padding(end = 10.dp, start = 10.dp, bottom = 10.dp)
                 .clip(RoundedCornerShape(10.dp))
-                .zoomable(zoomState)
+                .zoomable(zoomState),
+            loading = {CircularProgressIndicator() }
         )
+
         ExpandingText(text = apod.explanation)
 
         Button(
@@ -96,12 +104,22 @@ fun CurrentApod(
             state = datePickerState,
             onDismiss = {
                 showDatePicker = false
-                //let, getting datepicker state, ? null check, if it is null
-                //it doesnt run the lambda, if it isnt null it will run it
                 datePickerState.selectedDateMillis?.let { date ->
-                    onDateClicked(date)
+                    val newDate = turnToUTC(date)
+                    onDateClicked(newDate)
                 }
             }
         )
+}
+fun getTodaysDate() : Long {
+    return Instant.now().toEpochMilli()
+}
+
+fun turnToUTC(date: Long): Long {
+    val selectedInstant = Instant.ofEpochMilli(date)
+        .atZone(ZoneId.of("UTC"))
+        .toLocalDate()
+
+    return selectedInstant.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
 }
 
